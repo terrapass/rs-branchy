@@ -1,74 +1,11 @@
-use rand::{
-    self,
-    Rng
-};
 use itertools::Itertools;
 
-#[derive(Debug, Clone, Copy)]
-enum Symbol<NT, T> {
-    Nonterminal(NT),
-    Terminal(T)
-}
+mod grammar;
 
-impl<NT, T> Symbol<NT, T> {
-    fn is_terminal(&self) -> bool {
-        if let Self::Terminal(_) = self {
-            true
-        } else {
-            false
-        }
-    }
-
-    fn is_nonterminal(&self) -> bool {
-        !self.is_terminal()
-    }
-
-    fn unwrap_nonterm(self) -> NT {
-        self.expect_nonterm(
-            "unwrap_nonterm() must be used only on non-terminal symbols"
-        )
-    }
-
-    fn expect_nonterm(self, message: &'static str) -> NT {
-        if let Self::Nonterminal(value) = self {
-            value
-        } else {
-            panic!(message);
-        }
-    }
-
-    fn unwrap_term(self) -> T {
-        self.expect_term(
-            "unwrap_term() must be used only on terminal symbols"
-        )
-    }
-
-    fn expect_term(self, message: &'static str) -> T {
-        if let Self::Terminal(value) = self {
-            value
-        } else {
-            panic!(message);
-        }
-    }
-}
-
-struct Rule<NT, T> {
-    pattern: NT,
-    replacement: Vec<Symbol<NT, T>>
-}
-
-impl<NT, T> Rule<NT, T> {
-    pub fn new(pattern: NT, replacement: Vec<Symbol<NT, T>>) -> Self {
-        Self{
-            pattern,
-            replacement
-        }
-    }
-}
-
-struct Grammar<NT, T> {
-    rules: Vec<Rule<NT, T>>
-}
+use grammar::{
+    Symbol,
+    Rule
+};
 
 pub fn run() {
     const MAX_ITERATIONS: usize = 1024;
@@ -182,9 +119,7 @@ pub fn run() {
             })
     );
 
-    let grammar = Grammar{rules};
-
-    let mut input: Vec<Symbol<_, _>> = vec![
+    let input: Vec<Symbol<_, _>> = vec![
         Terminal("The "),
         Nonterminal("colored_animal"),
         Terminal(" of the "),
@@ -194,50 +129,16 @@ pub fn run() {
         Terminal(".")
     ];
 
-    let mut is_fully_expanded = false;
+    let expansion_result = grammar::expand_input(
+        input,
+        &rules,
+        &grammar::UniformRandomRuleSelector{},
+        &mut grammar::NullExpansionLogger{},
+        MAX_ITERATIONS
+    );
 
-    #[allow(clippy::find_map)]
-    for _ in 0..MAX_ITERATIONS {
-        let maybe_first_nonterm = input.iter()
-            .enumerate()
-            .find(|(_, &symbol)| symbol.is_nonterminal())
-            .map(|(idx, &symbol)| (idx, symbol.unwrap_nonterm()));
-
-        if let Some((first_nonterm_idx, first_nonterm_value)) = maybe_first_nonterm {
-            let matching_rules: Vec<_> = grammar.rules.iter()
-                .filter(|rule| rule.pattern == first_nonterm_value)
-                .collect();
-
-            if matching_rules.is_empty() {
-                eprintln!("No expansion for non-terminal symbol {:?}", first_nonterm_value);
-
-                break;
-            }
-
-            let selected_rule_idx = rand::thread_rng().gen_range(0, matching_rules.len());
-            let selected_rule     = matching_rules[selected_rule_idx];
-
-            input.splice(
-                first_nonterm_idx..=first_nonterm_idx,
-                selected_rule.replacement.iter().cloned()
-            );
-        } else {
-            is_fully_expanded = true;
-
-            break;
-        }
-    }
-
-    if is_fully_expanded {
-        let result = input.into_iter()
-            .map(Symbol::unwrap_term)
-            .join("");
-
-        println!("{}", result);
-    } else {
-        eprintln!(
-            "Failed to fully expand input.\nLast input: {:?}",
-            input
-        );
+    match expansion_result {
+        Ok(result) => println!("{}", result.into_iter().join("")),
+        Err(state) => eprintln!("Failed to fully expand input.\nLast state: {:?}", state)
     }
 }
