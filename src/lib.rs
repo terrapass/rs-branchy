@@ -1,14 +1,58 @@
 use itertools::Itertools;
 
 mod grammar;
+mod expansion;
 
 use grammar::{
+    NonterminalValue,
+    TerminalValue,
     Symbol,
     Rule
 };
 
+use expansion::{
+    ExpanderBuilder,
+    ExpansionLogger,
+    RuleSelector
+};
+
 pub fn run() {
-    const MAX_ITERATIONS: usize = 1024;
+    struct StdOutLogger;
+
+    impl<Nt, T> ExpansionLogger<Nt, T> for StdOutLogger
+        where Nt: NonterminalValue + std::fmt::Debug,
+              T:  TerminalValue + std::fmt::Debug
+    {
+        fn on_nonterm_expanded(&mut self, expanded_nonterm_value: &Nt, rule: &Rule<Nt, T>) {
+            println!("- expanded {:?} to {:?}", expanded_nonterm_value, rule.replacement);
+        }
+    
+        fn on_nonterm_expansion_failed(&mut self, expanded_nonterm_value: &Nt) {
+            println!("- failed to expand {:?}", expanded_nonterm_value);
+        }
+    
+        fn on_input_fully_expanded(&mut self, expansion_result: &[T]) {
+            println!("- fully expanded to {:?}", expansion_result);
+        }
+    
+        fn on_max_iterations_reached(&mut self, current_state: &[Symbol<Nt, T>], iterations: usize) {
+            println!("- reached the maximum {} iterations in state {:?}", iterations, current_state);
+        }
+    }
+
+    struct AlwaysFirstRuleSelector;
+
+    impl<Nt, T> RuleSelector<Nt, T> for AlwaysFirstRuleSelector {
+        fn select_matching_rule<'a>(&self, matching_rules: &[&'a Rule<Nt, T>]) -> Option<&'a Rule<Nt, T>> {
+            if matching_rules.is_empty() {
+                None
+            } else {
+                Some(matching_rules[0])
+            }
+        }
+    }
+
+    const MAX_ITERATIONS: usize = 512;
 
     use Symbol::{
         Nonterminal,
@@ -129,13 +173,13 @@ pub fn run() {
         Terminal(".")
     ];
 
-    let expansion_result = grammar::expand_input(
-        input,
-        &rules,
-        &grammar::UniformRandomRuleSelector{},
-        &mut grammar::NullExpansionLogger{},
-        MAX_ITERATIONS
-    );
+    let mut expander = ExpanderBuilder::from(rules)
+        .with_rule_selector(AlwaysFirstRuleSelector)
+        .with_logger(StdOutLogger)
+        .with_max_iterations(MAX_ITERATIONS)
+        .build();
+
+    let expansion_result = expander.expand(input);
 
     match expansion_result {
         Ok(result) => println!("{}", result.into_iter().join("")),
