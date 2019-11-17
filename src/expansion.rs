@@ -82,6 +82,15 @@ pub struct ExpanderBuilder<Nt, T, RS, EL>
     config: ExpanderConfig<Nt, T, RS, EL>
 }
 
+impl<Nt, T> Default for ExpanderBuilder<Nt, T, UniformRandomRuleSelector, NullExpansionLogger>
+    where Nt: NonterminalValue,
+          T:  TerminalValue
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<Nt, T> ExpanderBuilder<Nt, T, UniformRandomRuleSelector, NullExpansionLogger>
     where Nt: NonterminalValue,
           T:  TerminalValue
