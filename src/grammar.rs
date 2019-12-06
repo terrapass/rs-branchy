@@ -6,8 +6,6 @@
 // NonterminalValue: Copy + PartialEq
 //
 
-// TODO: See if we can dispose of Copy bound for Nt and T.
-
 pub trait NonterminalValue: Copy + PartialEq {
     // Empty
 }

@@ -233,7 +233,6 @@ fn expand_input<Nt, T, RS, EL>(
         if let Some((first_nonterm_idx, first_nonterm_value)) = maybe_first_nonterm {
             let maybe_selected_rule = rule_selector.select_rule(rules, &first_nonterm_value);
 
-            // TODO: See if this can be rewritten without another nested if let
             if let Some(selected_rule) = maybe_selected_rule {
                 input.splice(
                     first_nonterm_idx..=first_nonterm_idx,

@@ -14,7 +14,7 @@ use super::{
 // UniformRandomRuleSelector: RuleSelector<Nt, T>
 //
 
-pub struct UniformRandomRuleSelector;
+pub struct UniformRandomRuleSelector; // TODO: Replace with RandomRuleSelector<RNG>
 
 impl<Nt, T> RuleSelector<Nt, T> for UniformRandomRuleSelector {
     fn select_matching_rule<'a>(&self, matching_rules: &[&'a Rule<Nt, T>]) -> Option<&'a Rule<Nt, T>> {
