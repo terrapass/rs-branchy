@@ -56,31 +56,31 @@ When run, this example prints out a sentence, similar to the ones below:
 >    Bob the baker comes from a big town
 
 As you can see, both the input sequence and the rules of the grammar are described in terms of
-[`Nonterminal`](https://docs.rs/branchy/0.1.0/branchy/enum.Symbol.html#variant.Nonterminal) (ones that can be further expanded)
-and [`Terminal`](https://docs.rs/branchy/0.1.0/branchy/enum.Symbol.html#variant.Terminal) symbols.
+[`Nonterminal`](https://docs.rs/branchy/0.1.1/branchy/enum.Symbol.html#variant.Nonterminal) (ones that can be further expanded)
+and [`Terminal`](https://docs.rs/branchy/0.1.1/branchy/enum.Symbol.html#variant.Terminal) symbols.
 All of the rules have a non-terminal symbol value on their left-hand side and a sequence which
-may contain both [`Nonterminal`](https://docs.rs/branchy/0.1.0/branchy/enum.Symbol.html#variant.Nonterminal) and
-[`Terminal`](https://docs.rs/branchy/0.1.0/branchy/enum.Symbol.html#variant.Terminal) symbols on their right-hand side.
+may contain both [`Nonterminal`](https://docs.rs/branchy/0.1.1/branchy/enum.Symbol.html#variant.Nonterminal) and
+[`Terminal`](https://docs.rs/branchy/0.1.1/branchy/enum.Symbol.html#variant.Terminal) symbols on their right-hand side.
 
-The "magic" happens in [`Expander`](https://docs.rs/branchy/0.1.0/branchy/struct.Expander.html)'s [`expand()`](https://docs.rs/branchy/0.1.0/branchy/struct.Expander.html#method.expand) method,
+The "magic" happens in [`Expander`](https://docs.rs/branchy/0.1.1/branchy/struct.Expander.html)'s [`expand()`](https://docs.rs/branchy/0.1.1/branchy/struct.Expander.html#method.expand) method,
 which repeatedly selects and applies matching rules until the sequence is fully expanded
 (i.e contains only terminal symbols).
 
-By default, [`UniformRandomRuleSelector`](https://docs.rs/branchy/0.1.0/branchy/struct.UniformRandomRuleSelector.html) is used
+By default, [`UniformRandomRuleSelector`](https://docs.rs/branchy/0.1.1/branchy/struct.UniformRandomRuleSelector.html) is used
 to select rules while expanding, therefore the result is randomized. As we'll see below,
-this can be changed, if needed, via [`ExpanderBuilder`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html).
+this can be changed, if needed, via [`ExpanderBuilder`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html).
 
 ### Using a custom rule selector
 
-When constructing an [`Expander`](https://docs.rs/branchy/0.1.0/branchy/struct.Expander.html), you can provide your own
-rule selector via [`ExpanderBuilder`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html)'s
-[`with_rule_selector()`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html#method.with_rule_selector) method.
+When constructing an [`Expander`](https://docs.rs/branchy/0.1.1/branchy/struct.Expander.html), you can provide your own
+rule selector via [`ExpanderBuilder`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html)'s
+[`with_rule_selector()`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html#method.with_rule_selector) method.
 
 The following example defines a custom rule selector, which always chooses the first
 matching rule, and then  uses it in generation of a short phrase.
 As you can see, rule selectors need to implement at least the
-[`select_matching_rule()`](https://docs.rs/branchy/0.1.0/branchy/trait.RuleSelector.html#method.select_matching_rule) method
-from the [`RuleSelector`](https://docs.rs/branchy/0.1.0/branchy/trait.RuleSelector.html) trait.
+[`select_matching_rule()`](https://docs.rs/branchy/0.1.1/branchy/trait.RuleSelector.html#method.select_matching_rule) method
+from the [`RuleSelector`](https://docs.rs/branchy/0.1.1/branchy/trait.RuleSelector.html) trait.
 
 ```rust
 use branchy::{
@@ -116,17 +116,17 @@ let expanded_string = expander.expand(input).unwrap().join(" ");
 
 assert_eq!(expanded_string, "Have a wonderful afternoon");
 ```
-This example also sets the rules of the grammar directly on [`ExpanderBuilder`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html)
-via the [`with_new_rule()`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html#method.with_new_rule) method. See the documentation
-of [`ExpanderBuilder`](https://docs.rs/branchy/0.1.0/branchy/struct.ExpanderBuilder.html) for more helper methods.
+This example also sets the rules of the grammar directly on [`ExpanderBuilder`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html)
+via the [`with_new_rule()`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html#method.with_new_rule) method. See the documentation
+of [`ExpanderBuilder`](https://docs.rs/branchy/0.1.1/branchy/struct.ExpanderBuilder.html) for more helper methods.
 
 ### Logging
 
-To help you debug your grammars, `branchy` provides the [`ExpansionLogger`](https://docs.rs/branchy/0.1.0/branchy/trait.ExpansionLogger.html) trait,
+To help you debug your grammars, `branchy` provides the [`ExpansionLogger`](https://docs.rs/branchy/0.1.1/branchy/trait.ExpansionLogger.html) trait,
 which you can implement in order to be notified of the progress of the expansion and the steps it takes.
 
 For example, in order to log the rules selected at each step of the expansion, you can implement the
-[`on_nonterm_expanded()`](https://docs.rs/branchy/0.1.0/branchy/trait.ExpansionLogger.html#method.on_nonterm_expanded) method. The following example
+[`on_nonterm_expanded()`](https://docs.rs/branchy/0.1.1/branchy/trait.ExpansionLogger.html#method.on_nonterm_expanded) method. The following example
 writes a message via `println!()` on every step.
 
 ```rust
@@ -189,5 +189,5 @@ This example produces output similar to the following:
 Even though the primary use-case for `branchy` is generating text strings, it can be used for
 grammars producing other kinds of sequences. Any type implementing `Copy + PartialEq` can be
 used for values of non-terminal symbols and any type implementing `Copy` can be used for
-terminals. See [`NonterminalValue`](https://docs.rs/branchy/0.1.0/branchy/trait.NonterminalValue.html) and
-[`TerminalValue`](https://docs.rs/branchy/0.1.0/branchy/trait.TerminalValue.html) traits.
+terminals. See [`NonterminalValue`](https://docs.rs/branchy/0.1.1/branchy/trait.NonterminalValue.html) and
+[`TerminalValue`](https://docs.rs/branchy/0.1.1/branchy/trait.TerminalValue.html) traits.
