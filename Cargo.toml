@@ -3,8 +3,17 @@ name = "branchy"
 version = "0.1.0"
 authors = ["Taras Denysenko <terrapass93@gmail.com>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Provides tools for generating strings and sequences using context-free grammars."
+repository = "https://github.com/terrapass/rs-branchy"
+readme = "README.md"
+keywords = ["grammar", "generation", "symbol", "string", "rules"]
+categories = ["algorithms", "text-processing"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rand = "0.7.2"
+
+[badges]
+travis-ci = { repository = "terrapass/rs-branchy", branch = "master" }
