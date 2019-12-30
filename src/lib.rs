@@ -169,14 +169,12 @@
 //! expander.expand(input).unwrap();
 //! ```
 //! This example produces output similar to the following:
-//! 
-//! > expanded "site_description" to [Nonterminal("adjective"), Nonterminal("site")]
-//! >
-//! > expanded "adjective" to [Terminal("dark")]
-//! >
-//! > expanded "site" to [Terminal("cave")]
-//! >
-//! > expanded "direction" to [Terminal("east")]
+//! ```txt
+//! expanded "site_description" to [Nonterminal("adjective"), Nonterminal("site")]
+//! expanded "adjective" to [Terminal("dark")]
+//! expanded "site" to [Terminal("cave")]
+//! expanded "direction" to [Terminal("east")]
+//! ```
 //! 
 //! ## Generating non-text sequences
 //! 
