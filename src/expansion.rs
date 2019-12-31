@@ -1,6 +1,9 @@
 mod error;
 mod helpers;
 
+#[cfg(test)]
+mod tests;
+
 use crate::grammar::{
     NonterminalValue,
     TerminalValue,
