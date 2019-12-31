@@ -179,8 +179,8 @@
 //! ## Generating non-text sequences
 //! 
 //! Even though the primary use-case for `branchy` is generating text strings, it can be used for
-//! grammars producing other kinds of sequences. Any type implementing `Copy + PartialEq` can be
-//! used for values of non-terminal symbols and any type implementing `Copy` can be used for
+//! grammars producing other kinds of sequences. Any type implementing `Clone + PartialEq` can be
+//! used for values of non-terminal symbols and any type implementing `Clone` can be used for
 //! terminals. See [`NonterminalValue`](trait.NonterminalValue.html) and
 //! [`TerminalValue`](trait.TerminalValue.html) traits.
 

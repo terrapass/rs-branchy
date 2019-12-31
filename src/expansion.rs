@@ -230,8 +230,8 @@ fn expand_input<Nt, T, RS, EL>(
     for _ in 0..max_iterations {
         let maybe_first_nonterm = input.iter()
             .enumerate()
-            .find(|(_, &symbol)| symbol.is_nonterminal())
-            .map(|(idx, &symbol)| (idx, symbol.unwrap_nonterm()));
+            .find(|(_, symbol)| symbol.is_nonterminal())
+            .map(|(idx, symbol)| (idx, symbol.clone().unwrap_nonterm()));
 
         if let Some((first_nonterm_idx, first_nonterm_value)) = maybe_first_nonterm {
             let maybe_selected_rule = rule_selector.select_rule(rules, &first_nonterm_value);

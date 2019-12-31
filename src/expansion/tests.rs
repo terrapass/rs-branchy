@@ -317,7 +317,7 @@ impl<Nt, T, RS> RuleSelector<Nt, T> for MockRuleSelector<Nt, T, RS>
 {
     fn select_rule<'a>(&self, all_rules: &'a [Rule<Nt, T>], nonterm_value: &Nt) -> Option<&'a Rule<Nt,T>>
     {
-        self.state.borrow_mut().select_rule_calls.push((Vec::from(all_rules), *nonterm_value));
+        self.state.borrow_mut().select_rule_calls.push((Vec::from(all_rules), nonterm_value.clone()));
 
         self.inner.select_rule(all_rules, nonterm_value)
     }
@@ -379,11 +379,11 @@ impl<Nt, T> ExpansionLogger<Nt, T> for MockLogger<Nt, T>
           T:  TerminalValue
 {
     fn on_nonterm_expanded(&mut self, expanded_nonterm_value: &Nt, rule: &Rule<Nt, T>) {
-        self.state.borrow_mut().on_nonterm_expanded_calls.push((*expanded_nonterm_value, rule.clone()));
+        self.state.borrow_mut().on_nonterm_expanded_calls.push((expanded_nonterm_value.clone(), rule.clone()));
     }
 
     fn on_nonterm_expansion_failed(&mut self, expanded_nonterm_value: &Nt) {
-        self.state.borrow_mut().on_nonterm_expansion_failed_calls.push(*expanded_nonterm_value);
+        self.state.borrow_mut().on_nonterm_expansion_failed_calls.push(expanded_nonterm_value.clone());
     }
 
     fn on_input_fully_expanded(&mut self, expansion_result: &[T]) {

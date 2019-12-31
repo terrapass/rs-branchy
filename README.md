@@ -185,7 +185,7 @@ expanded "direction" to [Terminal("east")]
 ### Generating non-text sequences
 
 Even though the primary use-case for `branchy` is generating text strings, it can be used for
-grammars producing other kinds of sequences. Any type implementing `Copy + PartialEq` can be
-used for values of non-terminal symbols and any type implementing `Copy` can be used for
+grammars producing other kinds of sequences. Any type implementing `Clone + PartialEq` can be
+used for values of non-terminal symbols and any type implementing `Clone` can be used for
 terminals. See [`NonterminalValue`](https://docs.rs/branchy/0.1.1/branchy/trait.NonterminalValue.html) and
 [`TerminalValue`](https://docs.rs/branchy/0.1.1/branchy/trait.TerminalValue.html) traits.

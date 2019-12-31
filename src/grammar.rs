@@ -3,28 +3,28 @@
 //
 
 //
-// NonterminalValue: Copy + PartialEq
+// NonterminalValue: Clone + PartialEq
 //
 
-pub trait NonterminalValue: Copy + PartialEq {
+pub trait NonterminalValue: Clone + PartialEq {
     // Empty
 }
 
 impl<Nt> NonterminalValue for Nt
-    where Nt: Copy + PartialEq {
+    where Nt: Clone + PartialEq {
     // Empty
 }
 
 //
-// TerminalValue: Copy
+// TerminalValue: Clone
 //
 
-pub trait TerminalValue: Copy {
+pub trait TerminalValue: Clone {
     // Empty
 }
 
 impl<T> TerminalValue for T
-    where T: Copy {
+    where T: Clone {
     // Empty
 }
 
