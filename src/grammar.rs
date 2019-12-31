@@ -33,18 +33,14 @@ impl<T> TerminalValue for T
 //
 
 //
-// enum Symbol<Nt, T>
+// enum Symbol<Nt, T>: Debug + Clone + Copy + PartialEq
 //
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Symbol<Nt, T> {
     Nonterminal(Nt),
     Terminal(T)
 }
-
-//
-// Methods
-//
 
 impl<Nt, T> Symbol<Nt, T> {
     pub fn is_terminal(&self) -> bool {
@@ -89,17 +85,14 @@ impl<Nt, T> Symbol<Nt, T> {
 }
 
 //
-// struct Rule<Nt, T>
+// struct Rule<Nt, T>: Debug + Clone + PartialEq
 //
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct Rule<Nt, T> {
     pub pattern:     Nt,
     pub replacement: Vec<Symbol<Nt, T>>
 }
-
-//
-// Methods
-//
 
 impl<Nt, T> Rule<Nt, T> {
     pub fn new(pattern: Nt, replacement: Vec<Symbol<Nt, T>>) -> Self {
