@@ -202,5 +202,6 @@ pub use expansion::{
     UniformRandomRuleSelector,
     NullExpansionLogger,
     Error,
+    ErrorKind,
     Result
 };

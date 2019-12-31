@@ -50,8 +50,8 @@ pub struct Error<Nt, T>
     where Nt: NonterminalValue,
           T:  TerminalValue
 {
-    state: Vec<Symbol<Nt, T>>,
-    kind:  ErrorKind<Nt>
+    pub state: Vec<Symbol<Nt, T>>,
+    pub kind:  ErrorKind<Nt>
 }
 
 impl<Nt, T> Debug for Error<Nt, T>

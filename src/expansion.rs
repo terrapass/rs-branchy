@@ -25,7 +25,7 @@ pub use helpers::ExpansionLogger;
 // Interface types
 //
 
-pub use error::Error;
+pub use error::{Error, ErrorKind};
 pub use helpers::builtin::UniformRandomRuleSelector;
 pub use helpers::builtin::NullExpansionLogger;
 
