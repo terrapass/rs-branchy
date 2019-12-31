@@ -11,10 +11,16 @@ use super::{
 //
 
 //
-// UniformRandomRuleSelector: RuleSelector<Nt, T>
+// UniformRandomRuleSelector: RuleSelector<Nt, T> + Default
 //
 
 pub struct UniformRandomRuleSelector; // TODO: Replace with RandomRuleSelector<RNG>
+
+impl Default for UniformRandomRuleSelector {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl<Nt, T> RuleSelector<Nt, T> for UniformRandomRuleSelector {
     fn select_matching_rule<'a>(&self, matching_rules: &[&'a Rule<Nt, T>]) -> Option<&'a Rule<Nt, T>> {
@@ -25,6 +31,12 @@ impl<Nt, T> RuleSelector<Nt, T> for UniformRandomRuleSelector {
 
             Some(matching_rules[selected_rule_idx])
         }
+    }
+}
+
+impl UniformRandomRuleSelector {
+    pub fn new() -> Self {
+        Self
     }
 }
 
