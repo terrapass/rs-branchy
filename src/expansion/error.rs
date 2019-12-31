@@ -18,6 +18,7 @@ use crate::grammar::{
 // ErrorKind<Nt, T>: Debug + Copy
 //
 
+/// Enumerates kinds of possible errors during expansion.
 #[allow(clippy::module_name_repetitions)]
 #[derive(Clone, Copy)]
 pub enum ErrorKind<Nt>
@@ -46,6 +47,9 @@ impl<Nt> Debug for ErrorKind<Nt>
 // Error<Nt, T>: Error
 //
 
+/// Used as error variant for [`Result`](type.Result.html).
+///
+/// The reason for the error can be determined via the [`kind`](struct.Error.html#structfield.kind) field.
 pub struct Error<Nt, T>
     where Nt: NonterminalValue,
           T:  TerminalValue

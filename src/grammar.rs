@@ -6,6 +6,9 @@
 // NonterminalValue: Clone + PartialEq
 //
 
+/// Describes requirements for types of non-terminal symbol values.
+///
+/// Any type that is cloneable and comparable by `==` automatically satisfies `NonterminalValue`.
 pub trait NonterminalValue: Clone + PartialEq {
     // Empty
 }
@@ -19,6 +22,9 @@ impl<Nt> NonterminalValue for Nt
 // TerminalValue: Clone
 //
 
+/// Describes requirements for types of terminal symbol values.
+///
+/// Any cloneable type automatically satisfies `TerminalValue`.
 pub trait TerminalValue: Clone {
     // Empty
 }
@@ -36,9 +42,15 @@ impl<T> TerminalValue for T
 // enum Symbol<Nt, T>: Debug + Clone + Copy + PartialEq
 //
 
+/// Used to describe non-terminal and terminal symbols in [`Rule`](struct.Rule.html)s
+/// and grammar input sequences for [`Expander::expand()`](struct.Expander.html#method.expand).
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Symbol<Nt, T> {
+    /// Variant for non-terminal symbols - ones which can be further expanded,
+    /// can appear on left-hand side of rules and cannot appear in a successful expansion result.
     Nonterminal(Nt),
+    /// Variant for terminal symbols - ones which will not be replaced during expansion,
+    /// cannot appear on left-hand side of rules and will be the only ones in a successful expansion result.
     Terminal(T)
 }
 
@@ -88,9 +100,13 @@ impl<Nt, T> Symbol<Nt, T> {
 // struct Rule<Nt, T>: Debug + Clone + PartialEq
 //
 
+/// Describes a rule (or production) of a context-free grammar.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Rule<Nt, T> {
+    /// Left-hand side of the rule (a single non-terminal symbol value).
     pub pattern:     Nt,
+    /// Right-hand side of the rule (any sequence of symbols,
+    /// with which to replace the encountered `pattern`).
     pub replacement: Vec<Symbol<Nt, T>>
 }
 

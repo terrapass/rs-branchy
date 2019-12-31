@@ -14,6 +14,8 @@ use super::{
 // UniformRandomRuleSelector: RuleSelector<Nt, T> + Default
 //
 
+/// Default rule selector. Randomly selects one of the matching rules
+/// for every encountered non-terminal symbol.
 pub struct UniformRandomRuleSelector; // TODO: Replace with RandomRuleSelector<RNG>
 
 impl Default for UniformRandomRuleSelector {
@@ -44,6 +46,7 @@ impl UniformRandomRuleSelector {
 // NullExpansionLogger: ExpansionLogger<Nt, T>
 //
 
+/// Default logger. Does nothing.
 pub struct NullExpansionLogger;
 
 impl<Nt, T> ExpansionLogger<Nt, T> for NullExpansionLogger {

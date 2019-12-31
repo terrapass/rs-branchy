@@ -32,12 +32,15 @@ pub use error::{Error, ErrorKind};
 pub use helpers::builtin::UniformRandomRuleSelector;
 pub use helpers::builtin::NullExpansionLogger;
 
+/// On success - a vector containing only terminal values, on failure - an [`Error`](struct.Error.html).
 pub type Result<Nt, T> = std::result::Result<Vec<T>, Error<Nt, T>>;
 
 //
 // Expander<Nt, T, RS, EL>
 //
 
+/// Provides [`expand()`](struct.Expander.html#method.expand) method
+/// to perform the expansion of the input sequence.
 pub struct Expander<Nt, T, RS, EL>
     where RS: RuleSelector<Nt, T>,
           EL: ExpansionLogger<Nt, T>
@@ -55,6 +58,12 @@ impl<Nt, T, RS, EL> Expander<Nt, T, RS, EL>
     // Interface
     //
 
+    /// Expands the `input` sequence using the [`Rule`](struct.Rule.html)s and
+    /// [`RuleSelector`](trait.RuleSelector.html)
+    /// which were specified for this `Expander` via [`ExpanderBuilder`](struct.ExpanderBuilder.html).
+    ///
+    /// Returns a [`Result`](type.Result.html) which contains the resulting sequence of
+    /// terminal symbol values on success or an appropriate [`Error`](struct.Error.html) on failure.
     pub fn expand(&mut self, input: Vec<Symbol<Nt, T>>) -> Result<Nt, T> {
         expand_input(
             input,
@@ -78,6 +87,7 @@ impl<Nt, T, RS, EL> Expander<Nt, T, RS, EL>
 // ExpanderBuilder<Nt, T, RS, EL>
 //
 
+/// Allows configuring and constructing an instance of [`Expander`](struct.Expander.html).
 pub struct ExpanderBuilder<Nt, T, RS, EL>
     where RS: RuleSelector<Nt, T>,
           EL: ExpansionLogger<Nt, T>
