@@ -103,6 +103,7 @@ impl<Nt, T> Error<Nt, T>
     // Interface
     //
 
+    #[must_use]
     pub fn nonterm_expansion_failed(state: Vec<Symbol<Nt, T>>, expanded_nonterm_value: Nt) -> Self {
         Self::new(state, ErrorKind::NontermExpansionFailed(expanded_nonterm_value))
     }
