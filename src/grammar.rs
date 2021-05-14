@@ -56,11 +56,7 @@ pub enum Symbol<Nt, T> {
 
 impl<Nt, T> Symbol<Nt, T> {
     pub fn is_terminal(&self) -> bool {
-        if let Self::Terminal(_) = self {
-            true
-        } else {
-            false
-        }
+        matches!(self, Self::Terminal(_))
     }
 
     pub fn is_nonterminal(&self) -> bool {
@@ -77,7 +73,7 @@ impl<Nt, T> Symbol<Nt, T> {
         if let Self::Nonterminal(value) = self {
             value
         } else {
-            panic!(message);
+            panic!("{}", message);
         }
     }
 
@@ -91,7 +87,7 @@ impl<Nt, T> Symbol<Nt, T> {
         if let Self::Terminal(value) = self {
             value
         } else {
-            panic!(message);
+            panic!("{}", message);
         }
     }
 }

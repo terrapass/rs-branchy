@@ -236,7 +236,7 @@ fn expand_input<Nt, T, RS, EL>(
           RS: RuleSelector<Nt, T>,
           EL: ExpansionLogger<Nt, T>
 {
-    #[allow(clippy::find_map)]
+    #[allow(clippy::manual_find_map)]
     for _ in 0..max_iterations {
         let maybe_first_nonterm = input.iter()
             .enumerate()
