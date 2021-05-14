@@ -5,7 +5,7 @@
 # branchy
 
 This crate provides basic tools for generation of text strings and other sequences
-using [context-free grammars](https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html).
+using [context-free grammars](https://en.wikipedia.org/wiki/Context-free_grammar).
 
 ### Text generation example
 
