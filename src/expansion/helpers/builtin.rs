@@ -37,6 +37,7 @@ impl<Nt, T> RuleSelector<Nt, T> for UniformRandomRuleSelector {
 }
 
 impl UniformRandomRuleSelector {
+    #[must_use]
     pub fn new() -> Self {
         Self
     }

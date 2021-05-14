@@ -55,20 +55,34 @@ pub enum Symbol<Nt, T> {
 }
 
 impl<Nt, T> Symbol<Nt, T> {
+    /// Returns `true` if the [`Symbol`](enum.Symbol.html)
+    /// is [`Terminal`](enum.Symbol.html#variant.Terminal).
     pub fn is_terminal(&self) -> bool {
         matches!(self, Self::Terminal(_))
     }
 
+    /// Returns `true` if the [`Symbol`](enum.Symbol.html)
+    /// is [`Nonterminal`](enum.Symbol.html#variant.Nonterminal).
     pub fn is_nonterminal(&self) -> bool {
         !self.is_terminal()
     }
 
+    /// Returns the contained [`Nonterminal`](enum.Symbol.html#variant.Nonterminal) value,
+    /// consuming the `self` value.
+    ///
+    /// # Panics
+    /// Panics if the `self` value is actually [`Terminal`](enum.Symbol.html#variant.Terminal).
     pub fn unwrap_nonterm(self) -> Nt {
         self.expect_nonterm(
             "unwrap_nonterm() must be used only on non-terminal symbols"
         )
     }
 
+    /// Returns the contained [`Nonterminal`](enum.Symbol.html#variant.Nonterminal) value,
+    /// consuming the `self` value.
+    ///
+    /// # Panics
+    /// Panics with a custom `message` if the `self` value is actually [`Terminal`](enum.Symbol.html#variant.Terminal).
     pub fn expect_nonterm(self, message: &'static str) -> Nt {
         if let Self::Nonterminal(value) = self {
             value
@@ -77,12 +91,22 @@ impl<Nt, T> Symbol<Nt, T> {
         }
     }
 
+    /// Returns the contained [`Terminal`](enum.Symbol.html#variant.Terminal) value,
+    /// consuming the `self` value.
+    ///
+    /// # Panics
+    /// Panics if the `self` value is actually [`Nonterminal`](enum.Symbol.html#variant.Nonterminal).
     pub fn unwrap_term(self) -> T {
         self.expect_term(
             "unwrap_term() must be used only on terminal symbols"
         )
     }
 
+    /// Returns the contained [`Terminal`](enum.Symbol.html#variant.Terminal) value,
+    /// consuming the `self` value.
+    ///
+    /// # Panics
+    /// Panics with a custom `message` if the `self` value is actually [`Nonterminal`](enum.Symbol.html#variant.Nonterminal).
     pub fn expect_term(self, message: &'static str) -> T {
         if let Self::Terminal(value) = self {
             value

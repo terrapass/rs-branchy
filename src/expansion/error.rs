@@ -107,6 +107,7 @@ impl<Nt, T> Error<Nt, T>
         Self::new(state, ErrorKind::NontermExpansionFailed(expanded_nonterm_value))
     }
 
+    #[must_use]
     pub fn max_iterations_reached(state: Vec<Symbol<Nt, T>>, iterations: usize) -> Self {
         Self::new(state, ErrorKind::MaxIterationsReached(iterations))
     }

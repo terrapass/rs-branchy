@@ -41,6 +41,8 @@ pub type Result<Nt, T> = std::result::Result<Vec<T>, Error<Nt, T>>;
 
 /// Provides [`expand()`](struct.Expander.html#method.expand) method
 /// to perform the expansion of the input sequence.
+///
+/// Can be constructed using [`ExpanderBuilder`](struct.ExpanderBuilder.html).
 pub struct Expander<Nt, T, RS, EL>
     where RS: RuleSelector<Nt, T>,
           EL: ExpansionLogger<Nt, T>
@@ -64,6 +66,10 @@ impl<Nt, T, RS, EL> Expander<Nt, T, RS, EL>
     ///
     /// Returns a [`Result`](type.Result.html) which contains the resulting sequence of
     /// terminal symbol values on success or an appropriate [`Error`](struct.Error.html) on failure.
+    ///
+    /// # Errors
+    /// Will result in an [`Error`](struct.Error.html) if there is no matching rule to expand a non-terminal symbol or
+    /// if the maximum number of iterations has been reached while there are still non-terminal symbols left.
     pub fn expand(&mut self, input: Vec<Symbol<Nt, T>>) -> Result<Nt, T> {
         expand_input(
             input,
@@ -108,6 +114,7 @@ impl<Nt, T> ExpanderBuilder<Nt, T, UniformRandomRuleSelector, NullExpansionLogge
     where Nt: NonterminalValue,
           T:  TerminalValue
 {
+    #[must_use]
     pub fn new() -> Self {
         Self::from(Vec::new())
     }
